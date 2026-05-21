@@ -20,7 +20,7 @@
             <h3 class="text-lg font-semibold text-gray-800">User List</h3>
         </div>
         <div class="p-4 overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-300">
+                        <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">ID</th>
@@ -32,45 +32,29 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">1</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">John Doe</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">john@example.com</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Admin</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('users.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">2</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Jane Smith</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">jane@example.com</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Editor</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('users.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">3</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Robert Johnson</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">robert@example.com</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">User</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('users.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-                        </td>
-                    </tr>
+                    @foreach ($users as $user)
+                        <tr class="hover:bg-gray-100">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $user->id }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $user->name }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $user->email }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $user->role }}</td>
+                            @if ($user->status == 1)
+                            <td class="px-6 py-4">
+                                <span
+                                    class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                            </td>
+                            @else
+                            <td class="px-6 py-4">
+                                <span
+                                    class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>
+                            </td>
+                            @endif
+		                        <td class="px-6 py-4 text-sm font-medium">
+		                            <a href="{{ route('users.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
+		                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
+		                        </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

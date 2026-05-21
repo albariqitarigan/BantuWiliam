@@ -25,7 +25,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Category</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Description</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Price</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Stock</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase">Status</th>
@@ -33,48 +33,35 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">1</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Laptop Pro</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Electronics</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">$1,299.00</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">15</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">In Stock</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('products.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">2</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Wireless Earbuds</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Audio</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">$149.99</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">42</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">In Stock</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('products.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">3</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Smart Watch</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Wearables</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">$299.00</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">0</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Out of Stock</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            <a href="{{ route('products.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-                        </td>
-                    </tr>
+                    @if ($products->isEmpty())
+                        <tr>
+                            <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">No products found.</td>
+                        </tr>
+                    @else
+                        @foreach ($products as $product)
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $product->id }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">{{ $product->product_name }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">{{ $product->description }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">{{ number_format($product->price, 2) }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">{{ $product->stock }}</td>
+                                
+                                <!-- FIX STATUS -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                        In Stock
+                                    </span>
+                                </td>
+
+                                <td class="px-6 py-4 text-sm font-medium">
+                                    <!-- FIX EDIT ROUTE -->
+                                    <a href="{{ route('products.edit', $product->id) }}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
+                                    
+                                    <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
