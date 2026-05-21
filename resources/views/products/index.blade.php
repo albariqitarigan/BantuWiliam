@@ -15,6 +15,12 @@
     </div>
 
     <!-- Products Table -->
+    @if (session('success'))
+        <div id="alert-success"
+            class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 transition-opacity duration-500" role="alert">
+            <span class="font-medium">{{ session('success') }}</span>
+        </div>
+    @endif
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="p-4 bg-gradient-to-r from-gray-100 to-gray-300 border-b border-gray-200">
             <h3 class="text-lg font-semibold text-gray-800">Product List</h3>
@@ -45,19 +51,21 @@
                                 <td class="px-6 py-4 text-sm text-gray-700">{{ $product->description }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-700">{{ number_format($product->price, 2) }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-700">{{ $product->stock }}</td>
-                                
-                                <!-- FIX STATUS -->
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                        In Stock
-                                    </span>
+                                <td class="px-6 py-4">
+                                    @if ($product->stock > 0)
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">In Stock</span>
+                                    @else
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Out of Stock</span>
+                                    @endif
                                 </td>
 
                                 <td class="px-6 py-4 text-sm font-medium">
-                                    <!-- FIX EDIT ROUTE -->
                                     <a href="{{ route('products.edit', $product->id) }}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-                                    
-                                    <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-800" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -66,4 +74,13 @@
             </table>
         </div>
     </div>
+    <script>
+        setTimeout(function() {
+            const alert = document.getElementById('alert-success');
+            if (alert) {
+                alert.classList.add('opacity-0');
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 3000);
+    </script>
 @endsection

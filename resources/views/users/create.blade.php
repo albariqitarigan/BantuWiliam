@@ -21,6 +21,9 @@
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold">Password</label>
                 <input type="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-purple-300" required>
+                @error('password')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold">Role</label>
