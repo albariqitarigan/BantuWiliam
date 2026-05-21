@@ -5,6 +5,12 @@
 @section('page-title', 'Users Management')
 
 @section('content')
+    @if (session('success'))
+        <div class="success-alert mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700 transition-opacity duration-700">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex justify-between items-center mb-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-lg shadow">
         <h2 class="text-2xl font-bold">Users</h2>
         <div>
@@ -49,10 +55,14 @@
                                     class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>
                             </td>
                             @endif
-		                        <td class="px-6 py-4 text-sm font-medium">
-		                            <a href="{{ route('users.edit')}}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
-		                            <a href="#" class="text-red-600 hover:text-red-800">Delete</a>
-		                        </td>
+                            <td class="px-6 py-4 text-sm font-medium">
+                                <a href="{{ route('users.edit', $user->id) }}" class="text-blue-600 hover:text-blue-800 mr-3">Edit</a>
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this user?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -60,3 +70,14 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.success-alert').forEach((alert) => {
+                alert.classList.add('opacity-0');
+                setTimeout(() => alert.remove(), 700);
+            });
+        }, 5000);
+    </script>
+@endpush
