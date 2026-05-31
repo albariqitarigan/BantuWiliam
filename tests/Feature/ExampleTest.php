@@ -43,4 +43,19 @@ class ExampleTest extends TestCase
             ->get('/admin')
             ->assertStatus(403);
     }
+
+    public function test_guest_can_submit_contact_us_question(): void
+    {
+        $this->post('/contact-us', [
+            'name' => 'Budi',
+            'email' => 'budi@example.com',
+            'question' => 'Apakah bengkel masih buka hari ini?',
+        ])->assertRedirect(route('contact-us.create'));
+
+        $this->assertDatabaseHas('contact_messages', [
+            'name' => 'Budi',
+            'email' => 'budi@example.com',
+            'question' => 'Apakah bengkel masih buka hari ini?',
+        ]);
+    }
 }
