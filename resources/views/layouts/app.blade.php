@@ -22,6 +22,10 @@
         </div>
     </div>
 
+    <a href="{{ route('contact-us.create') }}" class="fixed bottom-5 left-5 z-50 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700">
+        <i class="fas fa-envelope mr-2"></i> Contact Us
+    </a>
+
     @stack('scripts')
 </body>
 </html>
